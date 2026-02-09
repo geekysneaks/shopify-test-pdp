@@ -40,6 +40,20 @@
   elsif section.settings.media_size == 'small'
     assign media_width = 0.45
   endif
+
+  assign selected_variant = product.selected_or_first_available_variant
+  assign color_option_index = -1
+  for option in product.options_with_values
+    assign downcased_option_name = option.name | downcase
+    if downcased_option_name contains 'color' or downcased_option_name contains 'colour'
+      assign color_option_index = forloop.index0
+      break
+    endif
+  endfor
+
+  if color_option_index > -1
+    assign selected_color = selected_variant.options[color_option_index]
+  endif
 -%}
 
 <media-gallery
@@ -86,11 +100,23 @@
         </li>
       {%- endif -%}
       {%- for media in product.media -%}
-        {% if media_position >= limit
-          or media_position >= 1
-          and section.settings.hide_variants
-          and variant_images contains media.src
-        %}
+        {%- liquid
+          assign is_filtered = false
+          if selected_color != blank and media.alt != blank
+            assign media_alt_downcase = media.alt | downcase
+            assign selected_color_downcase = selected_color | downcase
+            unless media_alt_downcase contains selected_color_downcase
+              assign is_filtered = true
+            endunless
+          endif
+
+          # Always show featured media of selected variant if it exists
+          if media.id == selected_variant.featured_media.id
+             assign is_filtered = false
+          endif
+        -%}
+
+        {% if is_filtered or media_position >= limit %}
           {% continue %}
         {% endif %}
 
@@ -252,7 +278,24 @@
           </li>
         {%- endif -%}
         {%- for media in product.media -%}
-          {%- unless media.id == product.selected_or_first_available_variant.featured_media.id -%}
+          {%- liquid
+            assign is_filtered = false
+            if selected_color != blank and media.alt != blank
+              assign media_alt_downcase = media.alt | downcase
+              assign selected_color_downcase = selected_color | downcase
+              unless media_alt_downcase contains selected_color_downcase
+                assign is_filtered = true
+              endunless
+            endif
+            
+            if media.id == selected_variant.featured_media.id
+               assign is_filtered = false
+            endif
+          -%}
+
+          {% if is_filtered %}
+            {% continue %}
+          {% endif %}
             {%- liquid
               capture media_index
                 if media.media_type == 'model'

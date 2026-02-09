@@ -1,0 +1,139 @@
+{% comment %}
+  Custom Recommendations Section - "Others Like You Also Bought"
+{% endcomment %}
+
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
+
+<style>
+  .recommendations-custom {
+    padding: 2rem 0;
+  }
+  .recommendations-custom__title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+  .recommendations-custom__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  
+  /* Nomad Style Card Overrides */
+  .recommendations-custom .card-wrapper {
+    position: relative;
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 4px;
+  }
+  
+  .recommendations-custom .quick-add-button-custom {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    background: #000;
+    color: #fff;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    font-size: 1.6rem;
+    line-height: 1;
+    padding-bottom: 2px;
+  }
+
+  .recommendations-custom .card__information {
+    padding-top: 1rem;
+  }
+
+  .recommendations-custom .card__heading {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .recommendations-custom .price {
+    font-size: 1.2rem;
+  }
+</style>
+
+<div class="recommendations-custom page-width">
+  <h2 class="recommendations-custom__title">{{ section.settings.heading | escape }}</h2>
+  
+  {%- liquid
+    assign rec_products = product.metafields.custom.related_products.value
+    assign has_manual = false
+    if rec_products != blank
+      assign has_manual = true
+    endif
+
+    if has_manual == false
+      assign collection = product.collections.first
+      if collection
+        assign all_collection_products = collection.products
+        assign filtered_products = ""
+        assign count = 0
+        for p in all_collection_products
+          if p.id != product.id and count < 2
+            if count == 0
+              assign rec_products = p
+            else
+              # Liquid array appending is tricky, we'll just handle it in the loop
+            endif
+            assign count = count | plus: 1
+          endif
+        endfor
+      endif
+    endif
+  -%}
+
+  <div class="recommendations-custom__grid">
+    {%- if has_manual -%}
+      {%- for rec_product in rec_products limit: 2 -%}
+        <div class="recommendations-custom__item">
+          {% render 'card-recommendation', card_product: rec_product, section_id: section.id %}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- assign count = 0 -%}
+      {%- for rec_product in product.collections.first.products -%}
+        {%- if rec_product.id != product.id and count < 2 -%}
+          <div class="recommendations-custom__item">
+            {% render 'card-recommendation', card_product: rec_product, section_id: section.id %}
+          </div>
+          {%- assign count = count | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Recommendations",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Others Like You Also Bought",
+      "label": "Heading"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Recommendations"
+    }
+  ]
+}
+{% endschema %}

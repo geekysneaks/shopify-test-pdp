@@ -194,7 +194,22 @@
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
                   <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
-                    {{ product.description }}
+                    {%- if product.description contains '<h5>' -%}
+                      {%- liquid
+                        assign desc_parts = product.description | split: '<h5>'
+                        echo desc_parts[0]
+                        for part in desc_parts offset: 1
+                          assign inner_parts = part | split: '</h5>'
+                          echo '<details class="product__details-accordion"><summary class="product__details-summary">'
+                          echo inner_parts[0]
+                          echo '</summary><div class="product__details-content">'
+                          echo inner_parts[1]
+                          echo '</div></details>'
+                        endfor
+                      -%}
+                    {%- else -%}
+                      {{ product.description }}
+                    {%- endif -%}
                   </div>
                 {%- endif -%}
               {%- when 'sku' -%}

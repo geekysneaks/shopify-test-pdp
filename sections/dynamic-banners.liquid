@@ -1,0 +1,118 @@
+{% comment %}
+  Dynamic Banner Section - Pulls from Product Metafields
+{% endcomment %}
+
+<style>
+  .dynamic-banner {
+    width: 100%;
+    position: relative;
+    margin-bottom: 4rem;
+    overflow: hidden;
+  }
+  .dynamic-banner__image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    min-height: 400px;
+  }
+  .dynamic-banner__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    width: 90%;
+    max-width: 800px;
+  }
+  .dynamic-banner__heading {
+    font-size: 4.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+  }
+  .dynamic-banner__text {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .dynamic-banner__heading {
+      font-size: 3.2rem;
+    }
+    .dynamic-banner__image {
+      min-height: 300px;
+    }
+  }
+</style>
+
+{%- liquid
+  # We use blocks to allow the user to add multiple banners, 
+  # but the content itself comes from Metafields assigned to each banner index.
+-%}
+
+<div class="dynamic-banner-container">
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign index = forloop.index
+      # Dynamic Metafield Mapping
+      # We assume metafields are named banner_image_1, banner_heading_1, etc.
+      assign img_key = 'banner_image_' | append: index
+      assign head_key = 'banner_heading_' | append: index
+      assign body_key = 'banner_text_' | append: index
+      
+      assign banner_image = product.metafields.custom[img_key].value
+      assign banner_heading = product.metafields.custom[head_key].value
+      assign banner_text = product.metafields.custom[body_key].value
+    -%}
+    
+    {%- if banner_image != blank or banner_heading != blank -%}
+      <div class="dynamic-banner" {{ block.shopify_attributes }}>
+        {%- if banner_image -%}
+          <img src="{{ banner_image | image_url: width: 2000 }}" alt="{{ banner_heading }}" class="dynamic-banner__image" loading="lazy">
+        {%- endif -%}
+        
+        <div class="dynamic-banner__content">
+          {%- if banner_heading != blank -%}
+            <h2 class="dynamic-banner__heading h1">{{ banner_heading }}</h2>
+          {%- endif -%}
+          {%- if banner_text != blank -%}
+            <p class="dynamic-banner__text">{{ banner_text }}</p>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Dynamic Metafield Banners",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 3,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "banner",
+      "name": "Banner Instance",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "This block will display content from the product's banner metafields (image, heading, text) for this index (1, 2, or 3)."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dynamic Metafield Banners",
+      "blocks": [
+        { "type": "banner" },
+        { "type": "banner" },
+        { "type": "banner" }
+      ]
+    }
+  ]
+}
+{% endschema %}

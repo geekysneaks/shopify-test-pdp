@@ -1,0 +1,181 @@
+/* Custom Nomad-style Swatches using Dawn Classes */
+.product-form__input--swatch {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+}
+
+.swatch-input__input {
+    display: none;
+}
+
+.swatch-input__label {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50% !important;
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #e5e5e5;
+    transition: transform 0.2s ease;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.swatch-input__label:hover {
+    transform: scale(1.1);
+}
+
+/* selection state: internal white border + black outer ring */
+.swatch-input__input:checked+.swatch-input__label {
+    border: 1px solid #000 !important;
+    box-shadow: inset 0 0 0 3px #fff;
+}
+
+.swatch-input__label .swatch {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    border: none !important;
+}
+
+/* Tooltip style */
+.swatch-input__label::before {
+    content: attr(title);
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.swatch-input__label:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Sold out state: diagonal line */
+.swatch-input__input.disabled+.swatch-input__label,
+.swatch-input__input[disabled]+.swatch-input__label {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.swatch-input__input.disabled+.swatch-input__label::after,
+.swatch-input__input[disabled]+.swatch-input__label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #000;
+    transform: translateY(-50%) rotate(-45deg);
+}
+/* Details Accordion (Overview) */
+.product__details-accordion {
+  background: #f5f5f5;
+  width: 100%;
+  margin: 2rem 0;
+  border: none;
+}
+
+.product__details-summary {
+  list-style: none;
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-size: 1.4rem;
+}
+
+.product__details-summary::-webkit-details-marker {
+  display: none;
+}
+
+.product__details-summary::after {
+  content: '';
+  width: 1rem;
+  height: 1rem;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-right: 0.5rem;
+}
+
+.product__details-accordion[open] .product__details-summary::after {
+  transform: rotate(-135deg);
+}
+
+.product__details-content {
+  padding: 0 2rem 2rem;
+  font-size: 1.4rem;
+  line-height: 1.6;
+}
+
+.product__details-content ul {
+  padding-left: 2rem;
+}
+
+/* Bottom PDP Accordions (Info & FAQ) */
+.bottom-accordions {
+  padding-bottom: 4rem;
+}
+
+.bottom-accordions .accordion {
+  border: none;
+  margin-bottom: 2rem;
+}
+
+.bottom-accordions .accordion__title {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2.5rem 3rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+}
+
+.bottom-accordions .accordion__title::after {
+  content: '+';
+  font-size: 2.4rem;
+  font-weight: normal;
+  transition: transform 0.3s ease;
+}
+
+.bottom-accordions details[open] .accordion__title::after {
+  transform: rotate(45deg);
+}
+
+.bottom-accordions .accordion__content {
+  padding: 2rem 3rem;
+  background: #fff;
+  border: 1px solid #f5f5f5;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+}

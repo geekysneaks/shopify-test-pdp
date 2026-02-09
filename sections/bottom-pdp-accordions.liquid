@@ -1,0 +1,83 @@
+{% comment %}
+  Bottom Accordions - Info (Metafield) and FAQ (Global Blocks)
+{% endcomment %}
+
+{{ 'component-accordion.css' | asset_url | stylesheet_tag }}
+
+<div class="bottom-accordions page-width">
+  
+  {%- comment -%} Info Accordion (Unique per PDP) {%- endcomment -%}
+  {%- assign info_content = product.metafields.custom.info_accordion.value -%}
+  {%- if info_content != blank -%}
+    <div class="accordion">
+      <details id="Details-Info-{{ section.id }}">
+        <summary class="accordion__title">
+          <span>{{ section.settings.info_label | escape }}</span>
+        </summary>
+        <div class="accordion__content rte">
+          {{ info_content }}
+        </div>
+      </details>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} FAQ Accordions (Global) {%- endcomment -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'faq' -%}
+      <div class="accordion" {{ block.shopify_attributes }}>
+        <details id="Details-{{ block.id }}-{{ section.id }}">
+          <summary class="accordion__title">
+            <span>{{ block.settings.question | escape }}</span>
+          </summary>
+          <div class="accordion__content rte">
+            {{ block.settings.answer }}
+          </div>
+        </details>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Bottom Accordions",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "info_label",
+      "default": "Info",
+      "label": "Info Accordion Label"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Frequently Asked Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Provide an answer here. This content will be the same across all PDPs.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bottom Accordions",
+      "blocks": [
+        { "type": "faq" },
+        { "type": "faq" }
+      ]
+    }
+  ]
+}
+{% endschema %}
