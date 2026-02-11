@@ -1,48 +1,70 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "main-product",
       "blocks": {
         "title": {
-          "type": "title"
+          "type": "title",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
         },
         "price": {
-          "type": "price"
+          "type": "price",
+          "settings": {}
         },
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button"
+            "picker_type": "button",
+            "swatch_shape": "circle"
           }
         },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
-            "show_dynamic_checkout": true
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
           }
-        },
-        "description": {
-          "type": "description"
         }
       },
       "block_order": [
         "title",
+        "description",
         "price",
         "variant_picker",
-        "buy_buttons",
-        "description"
+        "buy_buttons"
       ],
       "settings": {
         "enable_sticky_info": true,
-        "gallery_layout": "stacked",
+        "color_scheme": "",
         "media_size": "large",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "stacked",
+        "mobile_thumbnails": "hide",
+        "media_position": "left",
+        "image_zoom": "lightbox",
         "hide_variants": true,
+        "enable_video_looping": false,
         "padding_top": 36,
         "padding_bottom": 12
       }
     },
     "recommendations-custom": {
       "type": "recommendations-custom",
+      "disabled": true,
       "settings": {
         "heading": "Others Like You Also Bought"
       }
@@ -50,27 +72,44 @@
     "dynamic-banners": {
       "type": "dynamic-banners",
       "blocks": {
-        "banner-1": { "type": "banner" },
-        "banner-2": { "type": "banner" },
-        "banner-3": { "type": "banner" }
+        "banner-1": {
+          "type": "banner",
+          "settings": {}
+        },
+        "banner-2": {
+          "type": "banner",
+          "settings": {}
+        },
+        "banner-3": {
+          "type": "banner",
+          "settings": {}
+        }
       },
-      "block_order": ["banner-1", "banner-2", "banner-3"]
+      "block_order": [
+        "banner-1",
+        "banner-2",
+        "banner-3"
+      ],
+      "settings": {}
     },
     "bottom-pdp-accordions": {
       "type": "bottom-pdp-accordions",
-      "settings": {
-        "info_label": "Info"
-      },
       "blocks": {
         "faq-1": {
           "type": "faq",
           "settings": {
-              "question": "How do I care for Horween Leather?",
-              "answer": "<p>We recommend using a damp cloth for light cleaning. For deeper conditioning, use a leather balm.<\/p>"
+            "question": "How do I care for Horween Leather?",
+            "answer": "<p>We recommend using a damp cloth for light cleaning. For deeper conditioning, use a leather balm.</p>"
           }
         }
       },
-      "block_order": ["faq-1"]
+      "block_order": [
+        "faq-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "info_label": "Info"
+      }
     }
   },
   "order": [
