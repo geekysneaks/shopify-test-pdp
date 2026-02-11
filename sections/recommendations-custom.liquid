@@ -70,7 +70,7 @@
   <h2 class="recommendations-custom__title">{{ section.settings.heading | escape }}</h2>
   
   {%- liquid
-    assign rec_products = product.metafields.custom.related_products.value
+    assign rec_products = product.metafields.custom.related_producs.value
     assign has_manual = false
     if rec_products != blank
       assign has_manual = true
