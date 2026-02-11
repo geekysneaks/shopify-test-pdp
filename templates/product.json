@@ -64,7 +64,6 @@
     },
     "recommendations-custom": {
       "type": "recommendations-custom",
-      "disabled": true,
       "settings": {
         "heading": "Others Like You Also Bought"
       }
