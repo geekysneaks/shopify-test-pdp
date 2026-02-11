@@ -7,7 +7,7 @@
 <div class="bottom-accordions page-width">
   
   {%- comment -%} Info Accordion (Unique per PDP) {%- endcomment -%}
-  {%- assign info_content = product.metafields.custom.info_accordion.value | metafield_tag -%}
+  {%- assign info_content = product.metafields.custom.info_accordion.value -%}
   {%- if info_content != blank -%}
     <div class="accordion">
       <details id="Details-Info-{{ section.id }}">
