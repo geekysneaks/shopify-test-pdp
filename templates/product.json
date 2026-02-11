@@ -105,7 +105,6 @@
       "block_order": [
         "faq-1"
       ],
-      "disabled": true,
       "settings": {
         "info_label": "Info"
       }
