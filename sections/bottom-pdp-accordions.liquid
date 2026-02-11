@@ -15,7 +15,7 @@
           <span>{{ section.settings.info_label | escape }}</span>
         </summary>
         <div class="accordion__content rte">
-          {{ info_content }}
+          {{ info_content | metafield_tag }}
         </div>
       </details>
     </div>
