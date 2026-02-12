@@ -37,6 +37,12 @@
             "show_dynamic_checkout": true,
             "show_gift_card_recipient": true
           }
+        },
+        "recommendations": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% section 'recommendations-custom' %}"
+          }
         }
       },
       "block_order": [
@@ -44,7 +50,8 @@
         "description",
         "price",
         "variant_picker",
-        "buy_buttons"
+        "buy_buttons",
+        "recommendations"
       ],
       "settings": {
         "enable_sticky_info": true,
@@ -65,12 +72,6 @@
     "pdp-nav-pills": {
       "type": "pdp-nav-pills",
       "settings": {}
-    },
-    "recommendations-custom": {
-      "type": "recommendations-custom",
-      "settings": {
-        "heading": "Others Like You Also Bought"
-      }
     },
     "dynamic-banners": {
       "type": "dynamic-banners",
@@ -117,7 +118,6 @@
   "order": [
     "main",
     "pdp-nav-pills",
-    "recommendations-custom",
     "dynamic-banners",
     "bottom-pdp-accordions"
   ]
