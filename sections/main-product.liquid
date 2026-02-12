@@ -193,7 +193,7 @@
                 </p>
               {%- when 'description' -%}
                 {%- if product.description != blank -%}
-                  <div class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
+                  <div id="pdp-overview" class="product__description rte quick-add-hidden" {{ block.shopify_attributes }}>
                     {%- if product.description contains '<h5>' -%}
                       {%- liquid
                         assign desc_parts = product.description | split: '<h5>'

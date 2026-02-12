@@ -9,7 +9,7 @@
   {%- comment -%} Info Accordion (Unique per PDP) {%- endcomment -%}
   {%- assign info_content = product.metafields.custom.info_accordion -%}
   {%- if info_content != blank -%}
-    <div class="accordion">
+    <div id="pdp-more-info" class="accordion">
       <details id="Details-Info-{{ section.id }}">
         <summary class="accordion__title">
           <span>{{ section.settings.info_label | escape }}</span>
@@ -22,6 +22,7 @@
   {%- endif -%}
 
   {%- comment -%} FAQ Accordions (Global) {%- endcomment -%}
+  <div id="pdp-faq" class="faq-anchor"></div>
   {%- for block in section.blocks -%}
     {%- if block.type == 'faq' -%}
       <div class="accordion" {{ block.shopify_attributes }}>

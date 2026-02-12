@@ -1,0 +1,88 @@
+{% comment %}
+  Navigation Pills - Smooth scroll jump links
+{% endcomment %}
+
+<div class="pdp-nav-container page-width">
+  <div class="pdp-nav-pill-wrapper">
+    <nav class="pdp-nav-pills" aria-label="Product navigation">
+      <a href="#pdp-overview" class="pdp-nav-link active">Overview</a>
+      
+      {%- assign info_content = product.metafields.custom.info_accordion -%}
+      {%- if info_content != blank -%}
+        <a href="#pdp-more-info" class="pdp-nav-link">More Info</a>
+      {%- endif -%}
+      
+      {%- assign faq_count = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'faq' -%}{%- assign faq_count = faq_count | plus: 1 -%}{%- endif -%}
+      {%- endfor -%}
+      {%- comment -%} Check if the bottom-accordions section has FAQs {%- endcomment -%}
+      <a href="#pdp-faq" class="pdp-nav-link">FAQ</a>
+    </nav>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.pdp-nav-link');
+    
+    // Smooth scroll logic
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          const offset = 100; // Offset for sticky headers
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - offset;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+
+          // Update active class
+          navLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Intersection Observer to update active state on scroll
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('#pdp-overview, #pdp-more-info, #pdp-faq').forEach(section => {
+      observer.observe(section);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "PDP Nav Pills",
+  "tag": "section",
+  "class": "section pdp-nav-section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "PDP Nav Pills"
+    }
+  ]
+}
+{% endschema %}
