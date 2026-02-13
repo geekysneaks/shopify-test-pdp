@@ -1,4 +1,4 @@
-# Shopify Product Page Redesign - Technical Test
+# Shopify Product Page Redesign - Technical Test by Folaju Oyegbesan
 
 I built a custom Shopify product page that matches Nomad's premium look and feel. The goal was to create something that feels polished and works seamlessly, while staying flexible enough for store owners to customize without touching code.
 
@@ -63,5 +63,7 @@ You'll need to create these in **Settings > Custom Data > Products**:
 - Configure your FAQ questions right in the section settings
 
 ---
+  
+
 
 
